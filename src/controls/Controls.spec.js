@@ -20,3 +20,21 @@ test('opens gate when clicked', () =>{
     fireEvent.click(gateBtn);
     expect(toggleClosed).toHaveBeenCalled();
 })
+
+test('open button disabled when locked', () =>{
+    const toggleClosed = jest.fn()
+    const {getByText} = render(<Controls locked={true} closed={true} toggleClosed={toggleClosed} /> )
+
+    const gateBtn = getByText(/open gate/i)
+    fireEvent.click(gateBtn);
+    expect(toggleClosed).not.toHaveBeenCalled();
+})
+
+test('lock button disabled when open', () =>{
+    const toggleClosed = jest.fn()
+    const {getByText} = render(<Controls locked={false} closed={false} toggleClosed={toggleClosed} /> )
+
+    const gateBtn = getByText(/lock gate/i)
+    fireEvent.click(gateBtn);
+    expect(toggleClosed).not.toHaveBeenCalled();
+})
